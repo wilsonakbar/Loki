@@ -7,9 +7,9 @@ services:
   loki:
     image: grafana/loki:2.2.1
     ports:
-      - "3100:3100"
+      - "9091:3100"
     volumes:
-      - /root/promtailloki/loki:/etc/loki
+      - /home/dev/repository/loki:/etc/loki
     command: -config.file=/etc/loki/loki-config.yaml
     networks:
       - loki
@@ -18,14 +18,8 @@ services:
     image: grafana/promtail:2.2.1
     volumes:
       - /var/log:/var/log
-      - /root/promtailloki/promtail:/etc/promtail 
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /home/dev/repository/loki:/etc/promtail 
     command: -config.file=/etc/promtail/promtail-config.yaml
-    networks:
-      - loki
-
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
     networks:
       - loki
