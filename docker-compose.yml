@@ -19,7 +19,14 @@ services:
     volumes:
       - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /home/dev/repository/loki:/etc/promtail 
+      - /home/dev/repository/loki/promtail-config.yaml:/etc/promtail/promtail-config.yaml 
     command: -config.file=/etc/promtail/promtail-config.yaml
+    networks:
+      - loki
+
+  grafana:
+    image: grafana/grafana:9.0.2
+    ports:
+      - "3050:3000"
     networks:
       - loki
